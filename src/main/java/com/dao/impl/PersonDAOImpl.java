@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import com.dao.PersonDAO;
 import com.hibernate.Person;
@@ -40,6 +41,24 @@ public class PersonDAOImpl implements PersonDAO{
 		List<Person> personList = session.createQuery("from Person").list();
 		session.close();
 		return personList;
+	}
+	
+	public List<Person> getListWithHibernate(){
+		HibernateTemplate hibernateTemplate = new HibernateTemplate(this.sessionFactory);
+		return (List<Person>)hibernateTemplate.find("from Person");
+	}
+	
+	public void saveWithHibernate(Person person){
+		if(person == null)
+			return;
+		HibernateTemplate hibernateTemplate = new HibernateTemplate(this.sessionFactory);
+		hibernateTemplate.save(person);
+		
+	}
+
+	public Person findById(int id) {
+		HibernateTemplate hibernateTemplate = new HibernateTemplate(this.sessionFactory);
+		return (Person) hibernateTemplate.find("from Person where id = ?", new Object[]{id});
 	}
 
 }

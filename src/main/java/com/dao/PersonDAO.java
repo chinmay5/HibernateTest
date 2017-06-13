@@ -17,5 +17,11 @@ public interface PersonDAO {
 	public void save(Person p);
 	
 	public List<Person> list();
+
+	List<Person> getListWithHibernate();
+
+	void saveWithHibernate(Person person);
+	
+	Person findById(int id);
 	
 }
